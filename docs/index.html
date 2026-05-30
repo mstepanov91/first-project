@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обзор проекта — аналог Figma (локальный SaaS)</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c2330; --line:#2a3340;
+    --txt:#e6edf3; --muted:#9aa7b4; --accent:#7c5cff; --accent2:#22c55e;
+    --accent3:#38bdf8; --warn:#f59e0b; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:linear-gradient(160deg,#0b0e13,#0e1116 40%,#0c1018);
+    color:var(--txt); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:48px 24px 80px}
+  header.hero{
+    border:1px solid var(--line); border-radius:var(--radius);
+    background:radial-gradient(1200px 400px at 10% -20%,rgba(124,92,255,.25),transparent),var(--panel);
+    padding:40px 36px; margin-bottom:36px;
+  }
+  .badge{display:inline-block; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent3); border:1px solid var(--line); border-radius:999px; padding:5px 12px; margin-bottom:18px}
+  h1{margin:.1em 0 .25em; font-size:34px; line-height:1.15}
+  .tagline{color:var(--muted); font-size:18px; max-width:760px; margin:0}
+  .pills{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px}
+  .pill{font-size:13px; color:var(--txt); background:var(--panel2); border:1px solid var(--line);
+    border-radius:999px; padding:7px 13px}
+  .pill b{color:var(--accent)}
+  section{margin:38px 0}
+  h2{font-size:23px; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .dot{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+  .lead{color:var(--muted); margin:0 0 20px; max-width:820px}
+  .grid{display:grid; gap:16px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px}
+  .card h3{margin:0 0 6px; font-size:16px}
+  .card p{margin:0; color:var(--muted); font-size:14px}
+  .card .tag{display:inline-block; margin-top:12px; font-size:11px; color:var(--accent3);
+    border:1px solid var(--line); border-radius:6px; padding:2px 8px}
+  .val{border-left:3px solid var(--accent2)}
+  .feat{border-top:3px solid var(--accent)}
+  .legal{border-left:3px solid var(--accent3)}
+  /* roadmap */
+  .timeline{position:relative; margin-top:10px; padding-left:26px}
+  .timeline:before{content:""; position:absolute; left:7px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(var(--accent),var(--accent3),var(--accent2))}
+  .phase{position:relative; margin-bottom:16px; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:18px 20px}
+  .phase:before{content:""; position:absolute; left:-23px; top:22px; width:14px; height:14px;
+    border-radius:50%; background:var(--accent); border:3px solid var(--bg)}
+  .phase .ph-top{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+  .phase h3{margin:0; font-size:17px}
+  .phase .goal{color:var(--muted); font-size:14px; margin:6px 0 10px}
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{font-size:12px; background:var(--panel2); border:1px solid var(--line); border-radius:7px; padding:4px 9px; color:var(--txt)}
+  .tier{font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; white-space:nowrap}
+  .t0{background:rgba(56,189,248,.15); color:var(--accent3); border:1px solid rgba(56,189,248,.35)}
+  .t1{background:rgba(124,92,255,.15); color:#b9a7ff; border:1px solid rgba(124,92,255,.35)}
+  .t2{background:rgba(34,197,94,.13); color:#7ee2a3; border:1px solid rgba(34,197,94,.32)}
+  .tf{background:rgba(245,158,11,.13); color:#f4c66a; border:1px solid rgba(245,158,11,.3)}
+  /* tables */
+  .tbl-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel)}
+  table{border-collapse:collapse; width:100%; min-width:640px; font-size:14px}
+  th,td{padding:12px 14px; text-align:left; border-bottom:1px solid var(--line)}
+  thead th{background:var(--panel2); color:var(--txt); font-weight:600; font-size:13px}
+  tbody tr:last-child td{border-bottom:none}
+  td.first,th.first{font-weight:600}
+  th.ours{color:#7ee2a3}
+  .yes{color:var(--accent2)} .no{color:#ef6b6b} .part{color:var(--warn)}
+  caption{caption-side:bottom; color:var(--muted); font-size:12px; padding:10px 14px; text-align:left}
+  .callout{background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.3); border-radius:var(--radius);
+    padding:16px 18px; color:#f4c66a; font-size:14px; margin-top:4px}
+  .callout b{color:#ffd98a}
+  .disclaimer{font-size:12px; color:var(--muted); border:1px dashed var(--line); border-radius:10px; padding:10px 14px; margin-bottom:16px}
+  footer{margin-top:48px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
+  footer a{color:var(--accent3); text-decoration:none}
+  .note{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">Обзор проекта · MVP</span>
+    <h1>Совместный редактор интерфейсов</h1>
+    <p class="tagline">Аналог Figma для стран, где сервис становится недоступен. Модель —
+    <b>локальный SaaS внутри целевой страны</b>: резидентность данных, локальные платежи и
+    независимость от внешней (подсанкционной) инфраструктуры.</p>
+    <div class="pills">
+      <span class="pill"><b>MVP:</b> редактор + коллаборация + хэндофф</span>
+      <span class="pill"><b>Рендерер:</b> TypeScript + WebGL</span>
+      <span class="pill"><b>Синхронизация:</b> server-authoritative LWW</span>
+      <span class="pill"><b>Старт:</b> моно-сервер</span>
+    </div>
+  </header>
+
+  <!-- ЧТО ДЕЛАЕМ -->
+  <section>
+    <h2><span class="dot"></span>Что делаем</h2>
+    <p class="lead">Когда Figma уходит с рынка, команды теряют доступ к файлам, оплате и
+    совместной работе. Мы строим самодостаточную замену, развёрнутую внутри страны. Ценность — в
+    четырёх опорах:</p>
+    <div class="grid g2">
+      <div class="card val"><h3>🔓 Доступность</h3><p>Работает там, где Figma заблокирована: инфраструктура и домены — локальные, без зависимости от внешних провайдеров.</p></div>
+      <div class="card val"><h3>🛡️ Резидентность данных</h3><p>Файлы и метаданные хранятся в юрисдикции целевой страны; изоляция арендаторов и контроль доступа.</p></div>
+      <div class="card val"><h3>💳 Локальные платежи</h3><p>Подписка через локальные платёжные провайдеры; <b>capped-тарифы</b> вместо дорогой оплаты per-seat.</p></div>
+      <div class="card val"><h3>🌐 Локализация</h3><p>Полностью русскоязычный интерфейс с первого релиза — то, чего нет у Figma (только English UI).</p></div>
+    </div>
+    <p class="note" style="margin-top:14px">Прецеденты модели: <b>Penpot</b> (open-source, self-hosted, владение данными) и <b>Pixso/MasterGo</b> (выросли на рынках с ограниченным доступом к Figma).</p>
+  </section>
+
+  <!-- MVP -->
+  <section>
+    <h2><span class="dot"></span>Основная функциональность MVP</h2>
+    <p class="lead">Ядро продукта: векторный редактор UI + совместная работа в реальном времени +
+    передача дизайна разработчику. Whiteboard, презентации и AI — за рамками MVP (в роадмапе).</p>
+    <div class="grid g3">
+      <div class="card feat"><h3>✏️ Редактор</h3><p>Фреймы, формы, текст, изображения; авто-лэйаут; компоненты, экземпляры и варианты; стили и переменные (дизайн-токены); вектор, выравнивание, констрейнты.</p><span class="tag">E1</span></div>
+      <div class="card feat"><h3>🗂️ Файлы и команды</h3><p>Иерархия Организация → Команды → Проекты → Файлы → Страницы. Роли доступа: владелец / редактор / комментатор / зритель (RBAC).</p><span class="tag">E2 · ADR-9</span></div>
+      <div class="card feat"><h3>👥 Мультиплеер</h3><p>Real-time совместное редактирование, присутствие (курсоры, выделения), разрешение конфликтов по property-level last-writer-wins.</p><span class="tag">E3 · ADR-6</span></div>
+      <div class="card feat"><h3>💬 Комментарии и ревью</h3><p>Обсуждения на холсте, треды, упоминания, статусы — обратная связь без выхода из файла.</p><span class="tag">E4</span></div>
+      <div class="card feat"><h3>🧑‍💻 Dev-хэндофф</h3><p>Inspect, измерения, экспорт ассетов, значения токенов и базовый CSS-сниппет. Генерация кода под фреймворки — позже.</p><span class="tag">E5 · ADR-10</span></div>
+      <div class="card feat"><h3>📥 Импорт .fig</h3><p>Перенос файлов из Figma как трек миграции (с отчётом о покрытии). Технически рискован — вне критического пути MVP.</p><span class="tag">E6 · ADR-7</span></div>
+    </div>
+  </section>
+
+  <!-- РОАДМАП -->
+  <section>
+    <h2><span class="dot"></span>Ключевые этапы роадмапа</h2>
+    <p class="lead">Принцип: риск раньше объёма; инфраструктура догоняет аудиторию (тиры T0→T2).
+    Тиры переключаются по факту нагрузки, а не по номеру фазы.</p>
+    <div class="timeline">
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 0 · Исследование и прототип рендерера</h3><span class="tier t0">локальная разработка</span></div>
+        <p class="goal">Снять главный технический риск — производительность движка. Прототип TS+WebGL на демо-сцене.</p>
+        <div class="chips"><span class="chip">Выбор движка</span><span class="chip">Бенчмарк сцены</span><span class="chip">Абстракция Renderer</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 1 · MVP-редактор (однопользовательский)</h3><span class="tier t0">T0 · моно-сервер</span></div>
+        <p class="goal">Полноценный редактор: объекты, авто-лэйаут, компоненты/варианты, стили/переменные, файлы/проекты, локализация UI.</p>
+        <div class="chips"><span class="chip">Редактор E1</span><span class="chip">Файлы E2</span><span class="chip">Локализация (ADR-13)</span><span class="chip">Открытый экспорт</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 2 · Мультиплеер и команды</h3><span class="tier t1">T1 · раздельные сервисы</span></div>
+        <p class="goal">Real-time синхронизация (server-authoritative LWW), присутствие, роли и права, командная работа.</p>
+        <div class="chips"><span class="chip">Sync-протокол (ADR-6)</span><span class="chip">Присутствие</span><span class="chip">RBAC (ADR-9)</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 3 · Коллаборация и хэндофф</h3><span class="tier t1">T1</span></div>
+        <p class="goal">Комментарии и ревью, dev-хэндофф (inspect/экспорт/токены), библиотеки компонентов и переменных, версии файла.</p>
+        <div class="chips"><span class="chip">Комментарии E4</span><span class="chip">Хэндофф E5</span><span class="chip">Библиотеки</span><span class="chip">Версии (ADR-11)</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 4 · Масштабирование и коммерциализация</h3><span class="tier t2">T2 · кластер</span></div>
+        <p class="goal">Прод локального SaaS: биллинг с локальными платежами и capped-тарифами, импорт .fig, кластеризация, наблюдаемость/SRE.</p>
+        <div class="chips"><span class="chip">Биллинг (ADR-16)</span><span class="chip">Импорт .fig</span><span class="chip">Kubernetes-кластер</span><span class="chip">Мониторинг</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Будущее · За пределами MVP</h3><span class="tier tf">бэклог</span></div>
+        <p class="goal">Расширение в платформу: whiteboard, презентации, плагины/API, AI-функции, ветвление файлов, нативный рендерер Rust→WASM.</p>
+        <div class="chips"><span class="chip">FigJam-подобный</span><span class="chip">Slides</span><span class="chip">Плагины/API</span><span class="chip">AI</span><span class="chip">Rust→WASM</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ДИФФЕРЕНЦИАЦИЯ -->
+  <section>
+    <h2><span class="dot"></span>Дифференциация vs конкуренты</h2>
+    <p class="lead">Figma — эталон опыта, но недоступна и дорога; Penpot силён открытостью, но
+    слабее по коллаборации; Pixso/MasterGo показали плейбук для рынков с ограничениями. Наша
+    ниша — пересечение доступности, резидентности и локализации.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="first">Критерий</th>
+            <th class="ours">Наш сервис</th>
+            <th>Figma</th>
+            <th>Penpot</th>
+            <th>Pixso / MasterGo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="first">Работает в стране с блокировкой</td><td class="yes">✔ да</td><td class="no">✘ нет</td><td class="part">~ self-host</td><td class="yes">✔ да</td></tr>
+          <tr><td class="first">Резидентность данных в стране</td><td class="yes">✔ да</td><td class="no">✘ нет</td><td class="yes">✔ self-host</td><td class="part">~ приватный деплой</td></tr>
+          <tr><td class="first">Локальные платежи</td><td class="yes">✔ да</td><td class="no">✘ нет</td><td class="no">✘ нет</td><td class="part">~ регионально</td></tr>
+          <tr><td class="first">Локализация UI (рус.)</td><td class="yes">✔ да</td><td class="no">✘ только EN</td><td class="part">~ частично</td><td class="part">~ CN/EN/др.</td></tr>
+          <tr><td class="first">Real-time мультиплеер</td><td class="yes">✔ да</td><td class="yes">✔ эталон</td><td class="part">~ слабее</td><td class="yes">✔ да</td></tr>
+          <tr><td class="first">Открытый формат файла</td><td class="yes">✔ ZIP/JSON</td><td class="no">✘ бинарь</td><td class="yes">✔ SVG+JSON</td><td class="no">✘ нет</td></tr>
+          <tr><td class="first">Capped-тарифы (не per-seat)</td><td class="yes">✔ да</td><td class="no">✘ per-seat</td><td class="yes">✔ да</td><td class="part">~ дешёвые</td></tr>
+          <tr><td class="first">Импорт .fig (миграция)</td><td class="part">~ трек роадмапа</td><td class="yes">✔ родной</td><td class="part">~ ограниченно</td><td class="yes">✔ да</td></tr>
+        </tbody>
+        <caption>Источник: анализ в <code>src/07-анализ-конкурентов.md</code>. ✔ — есть · ~ — частично/с оговорками · ✘ — нет.</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- СТОИМОСТЬ -->
+  <section>
+    <h2><span class="dot"></span>Оценка инфраструктуры по тирам аудитории</h2>
+    <p class="lead">Арендованные облачные серверы локальных провайдеров. Старт — с минимума
+    (моно-сервер), масштабирование по триггерам нагрузки. Цифры — ориентир (диапазон ₽/мес),
+    точный счёт — по калькулятору провайдера.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="first">Тир</th>
+            <th>Аудитория</th>
+            <th>Пик одновр.</th>
+            <th>Вариант развёртывания</th>
+            <th>Стоимость, ₽/мес</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="first"><span class="tier t0">T0 · Пилот</span></td><td>~1 000 рег. / ~150 DAU</td><td>~30</td><td>A — моно-сервер (docker-compose, 1 VM)</td><td><b>~6 000–12 000</b></td></tr>
+          <tr><td class="first"><span class="tier t1">T1 · Малый</span></td><td>~10 000 рег. / ~1 500 DAU</td><td>~250</td><td>B — раздельные сервисы + managed PG + S3</td><td><b>~35 000–70 000</b></td></tr>
+          <tr><td class="first"><span class="tier t2">T2 · Средний</span></td><td>~100 000 рег. / ~12 000 DAU</td><td>~1 500</td><td>C — кластер: пул sync-нод + реплики + Redis pub/sub</td><td><b>~250 000–500 000</b></td></tr>
+        </tbody>
+        <caption>Источник: <code>docs/06-инфраструктура-и-стоимость.md</code>. Главный драйвер стоимости — egress (раздача WASM/ассетов без внешнего CDN).</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- ЮРИДИЧЕСКАЯ ОЦЕНКА -->
+  <section>
+    <h2><span class="dot"></span>Юридическая оценка и риски</h2>
+    <div class="disclaimer">⚠️ Не является юридической консультацией. Требуется проверка квалифицированным юристом в конкретной юрисдикции. Полный разбор — в <code>docs/07-юридическая-оценка.md</code>.</div>
+    <p class="lead">Сделать функциональный аналог правомерно: авторское право защищает конкретный
+    код и ассеты, а не идеи и функции. Ключ — независимая реализация (clean-room), свой бренд и
+    дисциплина комплаенса.</p>
+    <div class="grid g3">
+      <div class="card legal"><h3>✅ Функциональный аналог</h3><p>Дихотомия «идея/выражение»: функции не охраняются. Не копируем код и ассеты Figma — clean-room как политика и доказательство добросовестности.</p><span class="tag">ADR-17</span></div>
+      <div class="card legal"><h3>™️ Бренд</h3><p>Своё имя, логотип и UI-язык; нельзя имитировать Figma (trade dress, риск смешения). Clearance + регистрация товарного знака.</p><span class="tag">ADR-18</span></div>
+      <div class="card legal"><h3>⚖️ Патенты</h3><p>Патентный поиск и freedom-to-operate до релиза; патенты территориальны (фактор в нашу пользу); design-around.</p><span class="tag">ADR-21</span></div>
+      <div class="card legal"><h3>🔧 Reverse engineering / .fig</h3><p>Узкое исключение для совместимости (Дир. ЕС 2009/24, ст.1280 ГК РФ) против запрета в ToS Figma. Митигация — импорт из локального файла.</p><span class="tag">ADR-7</span></div>
+      <div class="card legal"><h3>📦 OSS и шрифты</h3><p>Аудит лицензий + SBOM; AGPL в SaaS — опасен; форк Penpot — MPL-2.0. Шрифты/иконки — только OFL/пермиссивные (экспорт = распространение).</p><span class="tag">ADR-19 · 20</span></div>
+      <div class="card legal"><h3>🌍 Санкции и ПДн</h3><p>Независимость от подсанкционных западных облаков/SDK/платежей (OFAC/EU/BIS); локализация персональных данных (для РФ — 152-ФЗ).</p><span class="tag">ADR-21</span></div>
+    </div>
+    <p class="note" style="margin-top:14px">Топ-риски (полная матрица R1–R12 в <code>docs/07</code>): копирование кода/визуала, чужие патенты, лицензии шрифтов/OSS, конфликт с ToS при импорте, санкционный комплаенс. Все управляемы при дисциплине clean-room и аудита.</p>
+  </section>
+
+  <!-- ИНВЕСТИЦИИ И ВЫХОД -->
+  <section>
+    <h2><span class="dot"></span>Инвестиции и стратегия выхода</h2>
+    <p class="lead">Когда поднимать раунды и кому в итоге продавать. Раунды привязаны к
+    доказанной тяге и тирам; выход — реалистично только к локальному стратегу. Полный разбор —
+    в <code>docs/08-инвестиции-и-выход.md</code>.</p>
+
+    <div class="callout">
+      <b>Парадокс выхода.</b> Продукт для подсанкционного рынка практически невозможно продать
+      западному бигтеху (санкции + антимонопольный надзор — урок сорванной в 2023 сделки
+      Adobe–Figma на ~$20 млрд). Реалистичный покупатель — <b>локальный стратег</b>
+      (Яндекс / Сбер / VK / Ростелеком); базовый сценарий — стратегическое партнёрство или
+      мажоритарная доля, а не полная продажа.
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:16px">
+      <table>
+        <thead>
+          <tr>
+            <th class="first">Раунд</th>
+            <th>Фаза / тир</th>
+            <th>Что показываем</th>
+            <th>Источник капитала</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="first">Seed</td><td>Фаза 1 / T0</td><td>Рабочий MVP, первые пилоты, ранний PMF-сигнал</td><td>Локальные ангелы / фонды</td></tr>
+          <tr><td class="first">Series A</td><td>Фазы 2–3 / T1</td><td>Мультиплеер, платные команды, удержание, выручка/ARR</td><td>Локальные VC</td></tr>
+          <tr><td class="first">Series B</td><td>Фаза 4 / T2</td><td>Доля рынка, lock-in, рост ARR, юнит-экономика</td><td>Локальные VC / стратеги</td></tr>
+        </tbody>
+        <caption>Источник: <code>docs/08</code> (ADR-22, ADR-23). Международный капитал недоступен по тому же комплаенсу, что и выход. Платные пилоты стоит подтянуть к Фазе 3.</caption>
+      </table>
+    </div>
+
+    <p class="note" style="margin-top:14px"><b>Тайминг M&amp;A:</b> активный поиск стратега — на переходе <b>T1→T2</b> (после доказанной доли рынка и lock-in, но до плато роста). Отношения с инвесторами и стратегами выстраивать заранее (Фазы 1–2); самостоятельный рост и локальное IPO — альтернатива и переговорный рычаг.</p>
+  </section>
+
+  <footer>
+    Документ-обзор сгенерирован из проектной документации · подробности в
+    <a href="README.md">docs/README.md</a>, решения — в
+    <a href="00-глоссарий-и-решения.md">docs/00 (ADR)</a>, роадмап —
+    <a href="05-роадмап.md">docs/05</a>, инфраструктура —
+    <a href="06-инфраструктура-и-стоимость.md">docs/06</a>, юридическая оценка —
+    <a href="07-юридическая-оценка.md">docs/07</a>, инвестиции и выход —
+    <a href="08-инвестиции-и-выход.md">docs/08</a>.
+  </footer>
+
+</div>
+</body>
+</html>
