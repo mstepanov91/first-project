@@ -45,6 +45,7 @@
     border:1px solid var(--line); border-radius:6px; padding:2px 8px}
   .val{border-left:3px solid var(--accent2)}
   .feat{border-top:3px solid var(--accent)}
+  .legal{border-left:3px solid var(--accent3)}
   /* roadmap */
   .timeline{position:relative; margin-top:10px; padding-left:26px}
   .timeline:before{content:""; position:absolute; left:7px; top:6px; bottom:6px; width:2px;
@@ -63,6 +64,7 @@
   .t1{background:rgba(124,92,255,.15); color:#b9a7ff; border:1px solid rgba(124,92,255,.35)}
   .t2{background:rgba(34,197,94,.13); color:#7ee2a3; border:1px solid rgba(34,197,94,.32)}
   .tf{background:rgba(245,158,11,.13); color:#f4c66a; border:1px solid rgba(245,158,11,.3)}
+  /* tables */
   .tbl-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel)}
   table{border-collapse:collapse; width:100%; min-width:640px; font-size:14px}
   th,td{padding:12px 14px; text-align:left; border-bottom:1px solid var(--line)}
@@ -72,6 +74,10 @@
   th.ours{color:#7ee2a3}
   .yes{color:var(--accent2)} .no{color:#ef6b6b} .part{color:var(--warn)}
   caption{caption-side:bottom; color:var(--muted); font-size:12px; padding:10px 14px; text-align:left}
+  .callout{background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.3); border-radius:var(--radius);
+    padding:16px 18px; color:#f4c66a; font-size:14px; margin-top:4px}
+  .callout b{color:#ffd98a}
+  .disclaimer{font-size:12px; color:var(--muted); border:1px dashed var(--line); border-radius:10px; padding:10px 14px; margin-bottom:16px}
   footer{margin-top:48px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
   footer a{color:var(--accent3); text-decoration:none}
   .note{font-size:12px;color:var(--muted)}
@@ -229,12 +235,69 @@
     </div>
   </section>
 
+  <!-- ЮРИДИЧЕСКАЯ ОЦЕНКА -->
+  <section>
+    <h2><span class="dot"></span>Юридическая оценка и риски</h2>
+    <div class="disclaimer">⚠️ Не является юридической консультацией. Требуется проверка квалифицированным юристом в конкретной юрисдикции. Полный разбор — в <code>docs/07-юридическая-оценка.md</code>.</div>
+    <p class="lead">Сделать функциональный аналог правомерно: авторское право защищает конкретный
+    код и ассеты, а не идеи и функции. Ключ — независимая реализация (clean-room), свой бренд и
+    дисциплина комплаенса.</p>
+    <div class="grid g3">
+      <div class="card legal"><h3>✅ Функциональный аналог</h3><p>Дихотомия «идея/выражение»: функции не охраняются. Не копируем код и ассеты Figma — clean-room как политика и доказательство добросовестности.</p><span class="tag">ADR-17</span></div>
+      <div class="card legal"><h3>™️ Бренд</h3><p>Своё имя, логотип и UI-язык; нельзя имитировать Figma (trade dress, риск смешения). Clearance + регистрация товарного знака.</p><span class="tag">ADR-18</span></div>
+      <div class="card legal"><h3>⚖️ Патенты</h3><p>Патентный поиск и freedom-to-operate до релиза; патенты территориальны (фактор в нашу пользу); design-around.</p><span class="tag">ADR-21</span></div>
+      <div class="card legal"><h3>🔧 Reverse engineering / .fig</h3><p>Узкое исключение для совместимости (Дир. ЕС 2009/24, ст.1280 ГК РФ) против запрета в ToS Figma. Митигация — импорт из локального файла.</p><span class="tag">ADR-7</span></div>
+      <div class="card legal"><h3>📦 OSS и шрифты</h3><p>Аудит лицензий + SBOM; AGPL в SaaS — опасен; форк Penpot — MPL-2.0. Шрифты/иконки — только OFL/пермиссивные (экспорт = распространение).</p><span class="tag">ADR-19 · 20</span></div>
+      <div class="card legal"><h3>🌍 Санкции и ПДн</h3><p>Независимость от подсанкционных западных облаков/SDK/платежей (OFAC/EU/BIS); локализация персональных данных (для РФ — 152-ФЗ).</p><span class="tag">ADR-21</span></div>
+    </div>
+    <p class="note" style="margin-top:14px">Топ-риски (полная матрица R1–R12 в <code>docs/07</code>): копирование кода/визуала, чужие патенты, лицензии шрифтов/OSS, конфликт с ToS при импорте, санкционный комплаенс. Все управляемы при дисциплине clean-room и аудита.</p>
+  </section>
+
+  <!-- ИНВЕСТИЦИИ И ВЫХОД -->
+  <section>
+    <h2><span class="dot"></span>Инвестиции и стратегия выхода</h2>
+    <p class="lead">Когда поднимать раунды и кому в итоге продавать. Раунды привязаны к
+    доказанной тяге и тирам; выход — реалистично только к локальному стратегу. Полный разбор —
+    в <code>docs/08-инвестиции-и-выход.md</code>.</p>
+
+    <div class="callout">
+      <b>Парадокс выхода.</b> Продукт для подсанкционного рынка практически невозможно продать
+      западному бигтеху (санкции + антимонопольный надзор — урок сорванной в 2023 сделки
+      Adobe–Figma на ~$20 млрд). Реалистичный покупатель — <b>локальный стратег</b>
+      (Яндекс / Сбер / VK / Ростелеком); базовый сценарий — стратегическое партнёрство или
+      мажоритарная доля, а не полная продажа.
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:16px">
+      <table>
+        <thead>
+          <tr>
+            <th class="first">Раунд</th>
+            <th>Фаза / тир</th>
+            <th>Что показываем</th>
+            <th>Источник капитала</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="first">Seed</td><td>Фаза 1 / T0</td><td>Рабочий MVP, первые пилоты, ранний PMF-сигнал</td><td>Локальные ангелы / фонды</td></tr>
+          <tr><td class="first">Series A</td><td>Фазы 2–3 / T1</td><td>Мультиплеер, платные команды, удержание, выручка/ARR</td><td>Локальные VC</td></tr>
+          <tr><td class="first">Series B</td><td>Фаза 4 / T2</td><td>Доля рынка, lock-in, рост ARR, юнит-экономика</td><td>Локальные VC / стратеги</td></tr>
+        </tbody>
+        <caption>Источник: <code>docs/08</code> (ADR-22, ADR-23). Международный капитал недоступен по тому же комплаенсу, что и выход. Платные пилоты стоит подтянуть к Фазе 3.</caption>
+      </table>
+    </div>
+
+    <p class="note" style="margin-top:14px"><b>Тайминг M&amp;A:</b> активный поиск стратега — на переходе <b>T1→T2</b> (после доказанной доли рынка и lock-in, но до плато роста). Отношения с инвесторами и стратегами выстраивать заранее (Фазы 1–2); самостоятельный рост и локальное IPO — альтернатива и переговорный рычаг.</p>
+  </section>
+
   <footer>
     Документ-обзор сгенерирован из проектной документации · подробности в
     <a href="README.md">docs/README.md</a>, решения — в
     <a href="00-глоссарий-и-решения.md">docs/00 (ADR)</a>, роадмап —
-    <a href="05-роадмап.md">docs/05</a>, инфраструктура и стоимость —
-    <a href="06-инфраструктура-и-стоимость.md">docs/06</a>.
+    <a href="05-роадмап.md">docs/05</a>, инфраструктура —
+    <a href="06-инфраструктура-и-стоимость.md">docs/06</a>, юридическая оценка —
+    <a href="07-юридическая-оценка.md">docs/07</a>, инвестиции и выход —
+    <a href="08-инвестиции-и-выход.md">docs/08</a>.
   </footer>
 
 </div>
