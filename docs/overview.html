@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Обзор проекта — аналог Figma (локальный SaaS)</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel2:#1c2330; --line:#2a3340;
+    --txt:#e6edf3; --muted:#9aa7b4; --accent:#7c5cff; --accent2:#22c55e;
+    --accent3:#38bdf8; --warn:#f59e0b; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:linear-gradient(160deg,#0b0e13,#0e1116 40%,#0c1018);
+    color:var(--txt); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:48px 24px 80px}
+  header.hero{
+    border:1px solid var(--line); border-radius:var(--radius);
+    background:radial-gradient(1200px 400px at 10% -20%,rgba(124,92,255,.25),transparent),var(--panel);
+    padding:40px 36px; margin-bottom:36px;
+  }
+  .badge{display:inline-block; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent3); border:1px solid var(--line); border-radius:999px; padding:5px 12px; margin-bottom:18px}
+  h1{margin:.1em 0 .25em; font-size:34px; line-height:1.15}
+  .tagline{color:var(--muted); font-size:18px; max-width:760px; margin:0}
+  .pills{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px}
+  .pill{font-size:13px; color:var(--txt); background:var(--panel2); border:1px solid var(--line);
+    border-radius:999px; padding:7px 13px}
+  .pill b{color:var(--accent)}
+  section{margin:38px 0}
+  h2{font-size:23px; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2 .dot{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+  .lead{color:var(--muted); margin:0 0 20px; max-width:820px}
+  .grid{display:grid; gap:16px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px}
+  .card h3{margin:0 0 6px; font-size:16px}
+  .card p{margin:0; color:var(--muted); font-size:14px}
+  .card .tag{display:inline-block; margin-top:12px; font-size:11px; color:var(--accent3);
+    border:1px solid var(--line); border-radius:6px; padding:2px 8px}
+  .val{border-left:3px solid var(--accent2)}
+  .feat{border-top:3px solid var(--accent)}
+  /* roadmap */
+  .timeline{position:relative; margin-top:10px; padding-left:26px}
+  .timeline:before{content:""; position:absolute; left:7px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(var(--accent),var(--accent3),var(--accent2))}
+  .phase{position:relative; margin-bottom:16px; background:var(--panel); border:1px solid var(--line);
+    border-radius:var(--radius); padding:18px 20px}
+  .phase:before{content:""; position:absolute; left:-23px; top:22px; width:14px; height:14px;
+    border-radius:50%; background:var(--accent); border:3px solid var(--bg)}
+  .phase .ph-top{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+  .phase h3{margin:0; font-size:17px}
+  .phase .goal{color:var(--muted); font-size:14px; margin:6px 0 10px}
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{font-size:12px; background:var(--panel2); border:1px solid var(--line); border-radius:7px; padding:4px 9px; color:var(--txt)}
+  .tier{font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; white-space:nowrap}
+  .t0{background:rgba(56,189,248,.15); color:var(--accent3); border:1px solid rgba(56,189,248,.35)}
+  .t1{background:rgba(124,92,255,.15); color:#b9a7ff; border:1px solid rgba(124,92,255,.35)}
+  .t2{background:rgba(34,197,94,.13); color:#7ee2a3; border:1px solid rgba(34,197,94,.32)}
+  .tf{background:rgba(245,158,11,.13); color:#f4c66a; border:1px solid rgba(245,158,11,.3)}
+  footer{margin-top:48px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
+  footer a{color:var(--accent3); text-decoration:none}
+  .note{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">Обзор проекта · MVP</span>
+    <h1>Совместный редактор интерфейсов</h1>
+    <p class="tagline">Аналог Figma для стран, где сервис становится недоступен. Модель —
+    <b>локальный SaaS внутри целевой страны</b>: резидентность данных, локальные платежи и
+    независимость от внешней (подсанкционной) инфраструктуры.</p>
+    <div class="pills">
+      <span class="pill"><b>MVP:</b> редактор + коллаборация + хэндофф</span>
+      <span class="pill"><b>Рендерер:</b> TypeScript + WebGL</span>
+      <span class="pill"><b>Синхронизация:</b> server-authoritative LWW</span>
+      <span class="pill"><b>Старт:</b> моно-сервер</span>
+    </div>
+  </header>
+
+  <!-- ЧТО ДЕЛАЕМ -->
+  <section>
+    <h2><span class="dot"></span>Что делаем</h2>
+    <p class="lead">Когда Figma уходит с рынка, команды теряют доступ к файлам, оплате и
+    совместной работе. Мы строим самодостаточную замену, развёрнутую внутри страны. Ценность — в
+    четырёх опорах:</p>
+    <div class="grid g2">
+      <div class="card val"><h3>🔓 Доступность</h3><p>Работает там, где Figma заблокирована: инфраструктура и домены — локальные, без зависимости от внешних провайдеров.</p></div>
+      <div class="card val"><h3>🛡️ Резидентность данных</h3><p>Файлы и метаданные хранятся в юрисдикции целевой страны; изоляция арендаторов и контроль доступа.</p></div>
+      <div class="card val"><h3>💳 Локальные платежи</h3><p>Подписка через локальные платёжные провайдеры; <b>capped-тарифы</b> вместо дорогой оплаты per-seat.</p></div>
+      <div class="card val"><h3>🌐 Локализация</h3><p>Полностью русскоязычный интерфейс с первого релиза — то, чего нет у Figma (только English UI).</p></div>
+    </div>
+    <p class="note" style="margin-top:14px">Прецеденты модели: <b>Penpot</b> (open-source, self-hosted, владение данными) и <b>Pixso/MasterGo</b> (выросли на рынках с ограниченным доступом к Figma).</p>
+  </section>
+
+  <!-- MVP -->
+  <section>
+    <h2><span class="dot"></span>Основная функциональность MVP</h2>
+    <p class="lead">Ядро продукта: векторный редактор UI + совместная работа в реальном времени +
+    передача дизайна разработчику. Whiteboard, презентации и AI — за рамками MVP (в роадмапе).</p>
+    <div class="grid g3">
+      <div class="card feat"><h3>✏️ Редактор</h3><p>Фреймы, формы, текст, изображения; авто-лэйаут; компоненты, экземпляры и варианты; стили и переменные (дизайн-токены); вектор, выравнивание, констрейнты.</p><span class="tag">E1</span></div>
+      <div class="card feat"><h3>🗂️ Файлы и команды</h3><p>Иерархия Организация → Команды → Проекты → Файлы → Страницы. Роли доступа: владелец / редактор / комментатор / зритель (RBAC).</p><span class="tag">E2 · ADR-9</span></div>
+      <div class="card feat"><h3>👥 Мультиплеер</h3><p>Real-time совместное редактирование, присутствие (курсоры, выделения), разрешение конфликтов по property-level last-writer-wins.</p><span class="tag">E3 · ADR-6</span></div>
+      <div class="card feat"><h3>💬 Комментарии и ревью</h3><p>Обсуждения на холсте, треды, упоминания, статусы — обратная связь без выхода из файла.</p><span class="tag">E4</span></div>
+      <div class="card feat"><h3>🧑‍💻 Dev-хэндофф</h3><p>Inspect, измерения, экспорт ассетов, значения токенов и базовый CSS-сниппет. Генерация кода под фреймворки — позже.</p><span class="tag">E5 · ADR-10</span></div>
+      <div class="card feat"><h3>📥 Импорт .fig</h3><p>Перенос файлов из Figma как трек миграции (с отчётом о покрытии). Технически рискован — вне критического пути MVP.</p><span class="tag">E6 · ADR-7</span></div>
+    </div>
+  </section>
+
+  <!-- РОАДМАП -->
+  <section>
+    <h2><span class="dot"></span>Ключевые этапы роадмапа</h2>
+    <p class="lead">Принцип: риск раньше объёма; инфраструктура догоняет аудиторию (тиры T0→T2).
+    Тиры переключаются по факту нагрузки, а не по номеру фазы.</p>
+    <div class="timeline">
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 0 · Исследование и прототип рендерера</h3><span class="tier t0">локальная разработка</span></div>
+        <p class="goal">Снять главный технический риск — производительность движка. Прототип TS+WebGL на демо-сцене.</p>
+        <div class="chips"><span class="chip">Выбор движка</span><span class="chip">Бенчмарк сцены</span><span class="chip">Абстракция Renderer</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 1 · MVP-редактор (однопользовательский)</h3><span class="tier t0">T0 · моно-сервер</span></div>
+        <p class="goal">Полноценный редактор: объекты, авто-лэйаут, компоненты/варианты, стили/переменные, файлы/проекты, локализация UI.</p>
+        <div class="chips"><span class="chip">Редактор E1</span><span class="chip">Файлы E2</span><span class="chip">Локализация (ADR-13)</span><span class="chip">Открытый экспорт</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 2 · Мультиплеер и команды</h3><span class="tier t1">T1 · раздельные сервисы</span></div>
+        <p class="goal">Real-time синхронизация (server-authoritative LWW), присутствие, роли и права, командная работа.</p>
+        <div class="chips"><span class="chip">Sync-протокол (ADR-6)</span><span class="chip">Присутствие</span><span class="chip">RBAC (ADR-9)</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 3 · Коллаборация и хэндофф</h3><span class="tier t1">T1</span></div>
+        <p class="goal">Комментарии и ревью, dev-хэндофф (inspect/экспорт/токены), библиотеки компонентов и переменных, версии файла.</p>
+        <div class="chips"><span class="chip">Комментарии E4</span><span class="chip">Хэндофф E5</span><span class="chip">Библиотеки</span><span class="chip">Версии (ADR-11)</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Фаза 4 · Масштабирование и коммерциализация</h3><span class="tier t2">T2 · кластер</span></div>
+        <p class="goal">Прод локального SaaS: биллинг с локальными платежами и capped-тарифами, импорт .fig, кластеризация, наблюдаемость/SRE.</p>
+        <div class="chips"><span class="chip">Биллинг (ADR-16)</span><span class="chip">Импорт .fig</span><span class="chip">Kubernetes-кластер</span><span class="chip">Мониторинг</span></div>
+      </div>
+
+      <div class="phase">
+        <div class="ph-top"><h3>Будущее · За пределами MVP</h3><span class="tier tf">бэклог</span></div>
+        <p class="goal">Расширение в платформу: whiteboard, презентации, плагины/API, AI-функции, ветвление файлов, нативный рендерер Rust→WASM.</p>
+        <div class="chips"><span class="chip">FigJam-подобный</span><span class="chip">Slides</span><span class="chip">Плагины/API</span><span class="chip">AI</span><span class="chip">Rust→WASM</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    Документ-обзор сгенерирован из проектной документации · подробности в
+    <a href="README.md">docs/README.md</a>, решения — в
+    <a href="00-глоссарий-и-решения.md">docs/00 (ADR)</a>, роадмап —
+    <a href="05-роадмап.md">docs/05</a>, инфраструктура и стоимость —
+    <a href="06-инфраструктура-и-стоимость.md">docs/06</a>.
+  </footer>
+
+</div>
+</body>
+</html>
