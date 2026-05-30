@@ -63,6 +63,15 @@
   .t1{background:rgba(124,92,255,.15); color:#b9a7ff; border:1px solid rgba(124,92,255,.35)}
   .t2{background:rgba(34,197,94,.13); color:#7ee2a3; border:1px solid rgba(34,197,94,.32)}
   .tf{background:rgba(245,158,11,.13); color:#f4c66a; border:1px solid rgba(245,158,11,.3)}
+  .tbl-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel)}
+  table{border-collapse:collapse; width:100%; min-width:640px; font-size:14px}
+  th,td{padding:12px 14px; text-align:left; border-bottom:1px solid var(--line)}
+  thead th{background:var(--panel2); color:var(--txt); font-weight:600; font-size:13px}
+  tbody tr:last-child td{border-bottom:none}
+  td.first,th.first{font-weight:600}
+  th.ours{color:#7ee2a3}
+  .yes{color:var(--accent2)} .no{color:#ef6b6b} .part{color:var(--warn)}
+  caption{caption-side:bottom; color:var(--muted); font-size:12px; padding:10px 14px; text-align:left}
   footer{margin-top:48px; padding-top:22px; border-top:1px solid var(--line); color:var(--muted); font-size:13px}
   footer a{color:var(--accent3); text-decoration:none}
   .note{font-size:12px;color:var(--muted)}
@@ -158,6 +167,65 @@
         <div class="chips"><span class="chip">FigJam-подобный</span><span class="chip">Slides</span><span class="chip">Плагины/API</span><span class="chip">AI</span><span class="chip">Rust→WASM</span></div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ДИФФЕРЕНЦИАЦИЯ -->
+  <section>
+    <h2><span class="dot"></span>Дифференциация vs конкуренты</h2>
+    <p class="lead">Figma — эталон опыта, но недоступна и дорога; Penpot силён открытостью, но
+    слабее по коллаборации; Pixso/MasterGo показали плейбук для рынков с ограничениями. Наша
+    ниша — пересечение доступности, резидентности и локализации.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="first">Критерий</th>
+            <th class="ours">Наш сервис</th>
+            <th>Figma</th>
+            <th>Penpot</th>
+            <th>Pixso / MasterGo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="first">Работает в стране с блокировкой</td><td class="yes">✔ да</td><td class="no">✘ нет</td><td class="part">~ self-host</td><td class="yes">✔ да</td></tr>
+          <tr><td class="first">Резидентность данных в стране</td><td class="yes">✔ да</td><td class="no">✘ нет</td><td class="yes">✔ self-host</td><td class="part">~ приватный деплой</td></tr>
+          <tr><td class="first">Локальные платежи</td><td class="yes">✔ да</td><td class="no">✘ нет</td><td class="no">✘ нет</td><td class="part">~ регионально</td></tr>
+          <tr><td class="first">Локализация UI (рус.)</td><td class="yes">✔ да</td><td class="no">✘ только EN</td><td class="part">~ частично</td><td class="part">~ CN/EN/др.</td></tr>
+          <tr><td class="first">Real-time мультиплеер</td><td class="yes">✔ да</td><td class="yes">✔ эталон</td><td class="part">~ слабее</td><td class="yes">✔ да</td></tr>
+          <tr><td class="first">Открытый формат файла</td><td class="yes">✔ ZIP/JSON</td><td class="no">✘ бинарь</td><td class="yes">✔ SVG+JSON</td><td class="no">✘ нет</td></tr>
+          <tr><td class="first">Capped-тарифы (не per-seat)</td><td class="yes">✔ да</td><td class="no">✘ per-seat</td><td class="yes">✔ да</td><td class="part">~ дешёвые</td></tr>
+          <tr><td class="first">Импорт .fig (миграция)</td><td class="part">~ трек роадмапа</td><td class="yes">✔ родной</td><td class="part">~ ограниченно</td><td class="yes">✔ да</td></tr>
+        </tbody>
+        <caption>Источник: анализ в <code>src/07-анализ-конкурентов.md</code>. ✔ — есть · ~ — частично/с оговорками · ✘ — нет.</caption>
+      </table>
+    </div>
+  </section>
+
+  <!-- СТОИМОСТЬ -->
+  <section>
+    <h2><span class="dot"></span>Оценка инфраструктуры по тирам аудитории</h2>
+    <p class="lead">Арендованные облачные серверы локальных провайдеров. Старт — с минимума
+    (моно-сервер), масштабирование по триггерам нагрузки. Цифры — ориентир (диапазон ₽/мес),
+    точный счёт — по калькулятору провайдера.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="first">Тир</th>
+            <th>Аудитория</th>
+            <th>Пик одновр.</th>
+            <th>Вариант развёртывания</th>
+            <th>Стоимость, ₽/мес</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="first"><span class="tier t0">T0 · Пилот</span></td><td>~1 000 рег. / ~150 DAU</td><td>~30</td><td>A — моно-сервер (docker-compose, 1 VM)</td><td><b>~6 000–12 000</b></td></tr>
+          <tr><td class="first"><span class="tier t1">T1 · Малый</span></td><td>~10 000 рег. / ~1 500 DAU</td><td>~250</td><td>B — раздельные сервисы + managed PG + S3</td><td><b>~35 000–70 000</b></td></tr>
+          <tr><td class="first"><span class="tier t2">T2 · Средний</span></td><td>~100 000 рег. / ~12 000 DAU</td><td>~1 500</td><td>C — кластер: пул sync-нод + реплики + Redis pub/sub</td><td><b>~250 000–500 000</b></td></tr>
+        </tbody>
+        <caption>Источник: <code>docs/06-инфраструктура-и-стоимость.md</code>. Главный драйвер стоимости — egress (раздача WASM/ассетов без внешнего CDN).</caption>
+      </table>
     </div>
   </section>
 
